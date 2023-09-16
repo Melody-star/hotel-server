@@ -11,7 +11,7 @@ import {
 import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 @ApiTags("用户接口")
 @Controller("user")
@@ -27,6 +27,9 @@ export class UserController {
   }
 
   @ApiOperation({ summary: "查找用户信息" })
+  @ApiParam({ name: "keyWord", description: "关键字", required: false })
+  @ApiParam({ name: "page", description: "页数", required: true, type: Number, example: 1 })
+  @ApiParam({ name: "pageSize", description: "每页数量", required: true, type: Number, example: 20 })
   @Get()
   findAll(@Query() query: { keyWord: string; page: number; pageSize: number }) {
     return this.userService.findAll(query);
@@ -43,11 +46,13 @@ export class UserController {
   //   return this.userService.findOne(+id);
   // }
 
+  @ApiOperation({ summary: "更新用户" })
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 
+  @ApiOperation({ summary: "删除用户" })
   @Delete(":id")
   remove(@Param("id") id: string) {
     return this.userService.remove(+id);
