@@ -6,12 +6,12 @@ import {
   Patch,
   Param,
   Delete,
-  Query
+  Query, UseFilters
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 @ApiTags("用户接口")
 @Controller("user")
@@ -20,22 +20,23 @@ export class UserController {
   }
 
   @ApiOperation({ summary: "用户注册" })
-  @ApiResponse({ status: 200, description: "注册成功" })
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
   @ApiOperation({ summary: "查找用户信息" })
-  @ApiParam({ name: "keyWord", description: "关键字", required: false })
-  @ApiParam({ name: "page", description: "页数", required: true, type: Number, example: 1 })
-  @ApiParam({ name: "pageSize", description: "每页数量", required: true, type: Number, example: 20 })
+  @ApiQuery({ name: "keyWord", description: "关键字", required: false })
+  @ApiQuery({ name: "page", description: "页数", required: true, type: Number, example: 1 })
+  @ApiQuery({ name: "pageSize", description: "每页数量", required: true, type: Number, example: 20 })
   @Get()
   findAll(@Query() query: { keyWord: string; page: number; pageSize: number }) {
     return this.userService.findAll(query);
   }
 
   @ApiOperation({ summary: "登录" })
+  @ApiQuery({ name: "username", description: "用户名", example: "awe" })
+  @ApiQuery({ name: "password", description: "密码", example: "123456" })
   @Get("/login")
   login(@Query() query: { username: string; password: string }) {
     return this.userService.login(query);

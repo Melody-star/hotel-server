@@ -21,7 +21,6 @@ export class UserService {
     data.userType = createUserDto.userType;
     data.phoneNumber = createUserDto.phoneNumber;
     this.user.save(data);
-    return { message: "注册成功" };
   }
 
   async login(query: { username: string; password: string }) {
@@ -69,8 +68,9 @@ export class UserService {
   //   return this.userRepository.findOne({ where: { username } });
   // }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    await this.user.update(id, updateUserDto);
+    return "修改成功";
   }
 
   remove(id: number) {

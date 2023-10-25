@@ -64,14 +64,11 @@ export class RoomService {
   }
 
   update(id: number, updateRoomDto: UpdateRoomDto) {
-    console.log(id);
-    console.log(updateRoomDto);
     this.room.update(id, updateRoomDto);
     return { message: "修改成功" };
   }
 
   remove(id: number) {
-    // this.orderService.remove(id)
     this.room.delete(id);
     return { message: "删除成功" };
   }
