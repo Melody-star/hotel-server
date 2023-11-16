@@ -42,11 +42,6 @@ export class UserController {
     return this.userService.login(query);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.userService.findOne(+id);
-  // }
-
   @ApiOperation({ summary: "更新用户" })
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {

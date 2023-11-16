@@ -8,7 +8,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private readonly user: Repository<User>
+    @InjectRepository(User) private readonly user: Repository<User>,
   ) {
   }
 
@@ -24,6 +24,9 @@ export class UserService {
   }
 
   async login(query: { username: string; password: string }) {
+
+
+
     const { username, password } = query;
     const userInfo = await this.findUserInfo(username);
 
